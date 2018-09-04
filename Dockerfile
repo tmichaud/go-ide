@@ -20,7 +20,6 @@ ENV SHELL /bin/bash
 RUN apt-get -q update && \
   apt-get install --no-install-recommends -y --force-yes -q \
     ca-certificates \
-    tmux \
     curl \
     git \
     vim-nox \
@@ -32,7 +31,7 @@ RUN apt-get -q update && \
   apt-get clean && \
   rm /var/lib/apt/lists/*_*
 
-RUN gem install tmuxinator
+#RUN gem install tmuxinator
 
 RUN go get github.com/nsf/gocode \
            golang.org/x/tools/cmd/goimports \
@@ -57,10 +56,10 @@ RUN cd ~/.vim/bundle/YouCompleteMe && git submodule update --init --recursive &&
 #RUN curl -fsSL https://raw.github.com/robbyrussell/oh-my-zsh/master/tools/install.sh | /bin/zsh || true
 
 ADD vimrc /root/.vimrc
-ADD tmuxinator /root/.tmuxinator
-ADD tmux.conf /etc/tmux.conf
+#ADD tmuxinator /root/.tmuxinator
+#ADD tmux.conf /etc/tmux.conf
 #ADD zshrc /root/.zshrc
 
 VOLUME ["/go/src"]
 
-CMD ["/usr/local/bin/tmuxinator", "start", "default"]
+CMD ["/bin/bash"]
