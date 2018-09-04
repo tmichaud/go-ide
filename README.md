@@ -6,11 +6,13 @@ This example assumes you know how to run Docker.
 
 This is not an official Google product.
 
+Modified by Thomas.  I removed zsh.  Shrug.
+
 Running the Container
 ---------------------
 To run this container:
 
-    $ docker run -ti saturnism/go-ide 
+    $ docker run -ti saturnism/go-ide  # Don't do this.
     
 Mount a volume so you don't lose your work:
 
@@ -22,7 +24,7 @@ Building the Container
 ----------------------
 Nothing special if you already have Docker installed:
 
-    $ git clone https://github.com/saturnism/go-ide
+    $ git clone https://github.com/tmichaud/go-ide
     $ cd go-ide
     $ docker build -t go-ide .
 
