@@ -12,20 +12,31 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-FROM golang
+FROM golang:latest
 
 ENV EDITOR vim
-ENV SHELL zsh
+ENV SHELL /bin/bash
+
+#RUN apt-get -q update && \
+#  apt-get install --no-install-recommends -y --force-yes -q \
+#    ca-certificates \
+#    curl \
+#    git \
+#    vim-nox \
+#    rubygems \
+#    build-essential \
+#    cmake \
+#    python-dev \
+#    && \
+#  apt-get clean && \
+#  rm /var/lib/apt/lists/*_*
 
 RUN apt-get -q update && \
   apt-get install --no-install-recommends -y --force-yes -q \
     ca-certificates \
-    zsh \
-    tmux \
     curl \
     git \
     vim-nox \
-    rubygems \
     build-essential \
     cmake \
     python-dev \
@@ -33,7 +44,7 @@ RUN apt-get -q update && \
   apt-get clean && \
   rm /var/lib/apt/lists/*_*
 
-RUN gem install tmuxinator
+#RUN gem install tmuxinator
 
 RUN go get github.com/nsf/gocode \
            golang.org/x/tools/cmd/goimports \
@@ -55,13 +66,13 @@ RUN mkdir -p ~/.vim/autoload ~/.vim/bundle && \
     git clone https://github.com/fatih/vim-go.git ~/.vim/bundle/vim-go
 
 RUN cd ~/.vim/bundle/YouCompleteMe && git submodule update --init --recursive && ./install.sh
-RUN curl -fsSL https://raw.github.com/robbyrussell/oh-my-zsh/master/tools/install.sh | /bin/zsh || true
+#RUN curl -fsSL https://raw.github.com/robbyrussell/oh-my-zsh/master/tools/install.sh | /bin/zsh || true
 
 ADD vimrc /root/.vimrc
-ADD tmuxinator /root/.tmuxinator
-ADD tmux.conf /etc/tmux.conf
-ADD zshrc /root/.zshrc
+#ADD tmuxinator /root/.tmuxinator
+#ADD tmux.conf /etc/tmux.conf
+#ADD zshrc /root/.zshrc
 
 VOLUME ["/go/src"]
 
-CMD ["/usr/local/bin/tmuxinator", "start", "default"]
+CMD ["/bin/bash"]
