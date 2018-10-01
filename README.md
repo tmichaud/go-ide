@@ -6,7 +6,7 @@ This example assumes you know how to run Docker.
 
 This is not an official Google product.
 
-Modified by Thomas.  I removed zsh.  Shrug.
+Modified by Thomas.  I removed zsh and tmux. Shrug.
 
 Running the Container
 ---------------------
