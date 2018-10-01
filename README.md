@@ -8,23 +8,19 @@ This is not an official Google product.
 
 Modified by Thomas.  I removed zsh and tmux. Shrug.
 
+Building the Container  
+----------------------
+    $ # Assumes that you have a ~/shared/go_docker
+    $ cd ~/shared/go_docker
+    $ git clone https://github.com/tmichaud/go-ide
+    $ 
+    $ docker build -t go-ide .
+
 Running the Container
 ---------------------
 To run this container:
 
-    $ docker run -ti saturnism/go-ide  # Don't do this.
+    $ cd ~/shared/go_docker/go-ide
+    $ ./run_ide.sh
     
-Mount a volume so you don't lose your work:
-
-    $ docker run -v /some/path:/go/src -ti saturnism/go-ide
-
-Or, mount a volume from a named container.
-
-Building the Container
-----------------------
-Nothing special if you already have Docker installed:
-
-    $ git clone https://github.com/tmichaud/go-ide
-    $ cd go-ide
-    $ docker build -t go-ide .
-
+   
