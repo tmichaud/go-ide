@@ -8,6 +8,8 @@ This is not an official Google product.
 
 Modified by Thomas.  I removed zsh and tmux. Shrug.
 
+See http://tmichaud.blogspot.com/2018/10/developing-go-in-docker-container.html for insights on why.
+
 Building the Container  
 ----------------------
     $ # Assumes that you have a ~/shared/go_docker
