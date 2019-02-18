@@ -12,9 +12,10 @@ workflows:
               only:
                 - master 
     jobs:
-      - build
-        branches: 
-          only: master
+      - build:
+          filter:
+            branches: 
+              only: master
 jobs:
   build:
     machine: true
