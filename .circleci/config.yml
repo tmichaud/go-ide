@@ -6,6 +6,6 @@ jobs:
       only: master
     steps:
       - checkout
-      - run: docker build -t "tmichaud/go-ide:$(git describe --abbrev=0 --tags)" go-ide .
+      - run: docker build -t "tmichaud/go-ide:$(git describe --abbrev=0 --tags)" .
       - run: docker login -u $DOCKER_USER -p $DOCKER_PASS
       - run: docker push tmichaud/go-ide
