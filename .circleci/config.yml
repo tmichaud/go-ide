@@ -3,6 +3,9 @@ workflows:
   commit:
     jobs:
       - build
+          filter:
+            branches: 
+              only: master
   nightly:
     triggers:
       - schedule:
@@ -13,9 +16,6 @@ workflows:
                 - master 
     jobs:
       - build:
-          filter:
-            branches: 
-              only: master
 jobs:
   build:
     machine: true
