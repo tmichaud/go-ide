@@ -1,3 +1,5 @@
+[![CircleCI](https://circleci.com/gh/tmichaud/circleci-101.svg?style=svg&circle-token=5b461b969e922d385734206b3a45919576b12062)](https://circleci.com/gh/tmichaud/circleci-101)
+
 Go IDE in a Container
 =========================
 
