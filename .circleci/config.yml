@@ -13,11 +13,11 @@ workflows:
                 - master 
     jobs:
       - build
+        branches: 
+          only: master
 jobs:
   build:
     machine: true
-    branches: 
-      only: master
     steps:
       - checkout
       - run: docker build -t "tmichaud/go-ide:$(git describe --abbrev=0 --tags)" .
