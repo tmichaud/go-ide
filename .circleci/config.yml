@@ -3,7 +3,7 @@ workflows:
   commit:
     jobs:
       - build
-          filter:
+          filters:
             branches: 
               only: master
   nightly:
