@@ -22,6 +22,6 @@ jobs:
     machine: true
     steps:
       - checkout
-      - run: docker build -t "tmichaud/go-ide:$(git describe --abbrev=0 --tags)" .
+      - run: docker build -t "tmichaud/go-ide:$(git describe --abbrev=0 --tags)" -t "tmichaud/go-ide:latest" .
       - run: docker login -u $DOCKER_USER -p $DOCKER_PASS
       - run: docker push tmichaud/go-ide
