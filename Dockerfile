@@ -46,16 +46,17 @@ RUN apt-get -q update && \
 
 #RUN gem install tmuxinator
 
+
 RUN go get github.com/nsf/gocode \
            golang.org/x/tools/cmd/goimports \
            github.com/rogpeppe/godef \
            golang.org/x/tools/cmd/guru \
            golang.org/x/tools/cmd/gorename \
-           github.com/golang/lint/golint \
            github.com/kisielk/errcheck \
            github.com/jstemmer/gotags \
            github.com/akavel/go-explorer-rescued/src/getool
-  #         github.com/garyburd/go-explorer/src/getool -- This moved
+
+RUN go get -u golang.org/x/lint/golint
 
 RUN mkdir -p ~/.vim/autoload ~/.vim/bundle && \
     git clone https://github.com/gmarik/Vundle.vim.git ~/.vim/bundle/Vundle.vim && \
@@ -65,7 +66,6 @@ RUN mkdir -p ~/.vim/autoload ~/.vim/bundle && \
     git clone https://github.com/akavel/go-explorer-rescued.git ~/.vim/bundle/go-explorer && \
     git clone https://github.com/scrooloose/nerdtree.git ~/.vim/bundle/nerdtree && \
     git clone https://github.com/fatih/vim-go.git ~/.vim/bundle/vim-go
-    #git clone https://github.com/garyburd/go-explorer.git ~/.vim/bundle/go-explorer && \  -- This moved
 
 RUN cd ~/.vim/bundle/YouCompleteMe && git submodule update --init --recursive && ./install.sh
 #RUN curl -fsSL https://raw.github.com/robbyrussell/oh-my-zsh/master/tools/install.sh | /bin/zsh || true
