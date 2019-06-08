@@ -65,7 +65,8 @@ RUN mkdir -p ~/.vim/autoload ~/.vim/bundle && \
     git clone https://github.com/Valloric/YouCompleteMe ~/.vim/bundle/YouCompleteMe && \
     git clone https://github.com/akavel/go-explorer-rescued.git ~/.vim/bundle/go-explorer && \
     git clone https://github.com/scrooloose/nerdtree.git ~/.vim/bundle/nerdtree && \
-    git clone --branch v1.19 https://github.com/fatih/vim-go.git ~/.vim/bundle/vim-go
+    git clone https://github.com/fatih/vim-go.git ~/.vim/bundle/vim-go
+    #git clone --branch v1.19 https://github.com/fatih/vim-go.git ~/.vim/bundle/vim-go
 
 
 RUN cd ~/.vim/bundle/YouCompleteMe && git submodule update --init --recursive && ./install.sh
