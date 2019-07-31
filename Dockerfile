@@ -11,72 +11,64 @@
 # WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 # See the License for the specific language governing permissions and
 # limitations under the License.
+#
+# Copyright 2019 Solipsis Software Solutions
+# 
+# This is a rework (derivative work) from the original approach to use gopls (and vim-plug rather than pathogen). 
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#     http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
 
 FROM golang:latest
 
 ENV EDITOR vim
 ENV SHELL /bin/bash
 
-#RUN apt-get -q update && \
-#  apt-get install --no-install-recommends -y --force-yes -q \
-#    ca-certificates \
-#    curl \
-#    git \
-#    vim-nox \
-#    rubygems \
-#    build-essential \
-#    cmake \
-#    python-dev \
-#    && \
-#  apt-get clean && \
-#  rm /var/lib/apt/lists/*_*
-
-RUN apt-get -q update && \
+RUN apt-get -q update -y && \
   apt-get install --no-install-recommends -y --force-yes -q \
     ca-certificates \
+    build-essential \
     curl \
     git \
-    vim-nox \
-    build-essential \
-    cmake \
-    python-dev \
+    libncurses5-dev  \
+    python3-pip \
+    python3-setuptools \
     && \
   apt-get clean && \
-  rm /var/lib/apt/lists/*_*
+  rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
 
-#RUN gem install tmuxinator
-
-
-RUN go get github.com/nsf/gocode \
-           golang.org/x/tools/cmd/goimports \
-           github.com/rogpeppe/godef \
-           golang.org/x/tools/cmd/guru \
-           golang.org/x/tools/cmd/gorename \
-           github.com/kisielk/errcheck \
-           github.com/jstemmer/gotags \
-           github.com/akavel/go-explorer-rescued/src/getool
-
-RUN go get -u golang.org/x/lint/golint
-
-RUN mkdir -p ~/.vim/autoload ~/.vim/bundle && \
-    git clone https://github.com/gmarik/Vundle.vim.git ~/.vim/bundle/Vundle.vim && \
-    curl -LSso ~/.vim/autoload/pathogen.vim https://tpo.pe/pathogen.vim && \
-    git clone git://github.com/tpope/vim-sensible.git ~/.vim/bundle/vim-sensible && \
-    git clone https://github.com/Valloric/YouCompleteMe ~/.vim/bundle/YouCompleteMe && \
-    git clone https://github.com/akavel/go-explorer-rescued.git ~/.vim/bundle/go-explorer && \
-    git clone https://github.com/scrooloose/nerdtree.git ~/.vim/bundle/nerdtree && \
-    #git clone https://github.com/fatih/vim-go.git ~/.vim/bundle/vim-go
-    git clone --branch v1.19 https://github.com/fatih/vim-go.git ~/.vim/bundle/vim-go
-
-
-RUN cd ~/.vim/bundle/YouCompleteMe && git submodule update --init --recursive && ./install.sh
-#RUN curl -fsSL https://raw.github.com/robbyrussell/oh-my-zsh/master/tools/install.sh | /bin/zsh || true
-
-ADD vimrc /root/.vimrc
-#ADD tmuxinator /root/.tmuxinator
-#ADD tmux.conf /etc/tmux.conf
-#ADD zshrc /root/.zshrc
+# Install Vim from source -- from https://www.vim.org/download.php#unix
+RUN git clone https://github.com/vim/vim.git
+RUN cd vim/src && make && make install
 
 VOLUME ["/go/src"]
+
+#RUN curl -fLo ~/.vim/autoload/plug.vim --create-dirs https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
+#RUN git clone --branch v1.20 https://github.com/fatih/vim-go.git ~/.vim/plugged/vim-go
+#ADD vimrc /root/.vimrc
+#RUN vim -E -u /root/.vimrc +PlugInstall +GoInstallBinaries
+
+#COPY . /vim-go/
+#WORKDIR /vim-go
+
+RUN groupadd --gid 999 vboxsf
+# RUN groupadd --gid 0 staff -- already exists
+RUN useradd --gid 999 -ms /bin/bash -d /vim-go vim-go
+RUN usermod -a -G staff vim-go
+USER vim-go
+
+RUN curl -fLo /vim-go/.vim/autoload/plug.vim --create-dirs https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
+RUN git clone --branch v1.20 https://github.com/fatih/vim-go.git /vim-go/.vim/plugged/vim-go
+ADD --chown=vim-go:vboxsf vimrc /vim-go/.vimrc
+RUN vim -E -u /vim-go/.vimrc +PlugInstall +GoInstallBinaries
 
 CMD ["/bin/bash"]

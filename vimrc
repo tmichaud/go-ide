@@ -14,7 +14,11 @@
 
 set encoding=utf-8
 
-execute pathogen#infect()
+call plug#begin()
+Plug 'fatih/vim-go', { 'do': ':GoInstallBinaries' }
+call plug#end()
+
+"execute pathogen#infect()  -- We used to use pathogen.  
 syntax on
 filetype plugin indent on
 
