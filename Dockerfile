@@ -34,7 +34,7 @@ ENV EDITOR vim
 ENV SHELL /bin/bash
 
 RUN apt-get -q update -y && \
-  apt-get install --no-install-recommends -y --force-yes -q \
+    apt-get install --no-install-recommends -y --force-yes -q \
     ca-certificates \
     build-essential \
     curl \
@@ -52,22 +52,14 @@ RUN cd vim/src && make && make install
 
 VOLUME ["/go/src"]
 
-#RUN curl -fLo ~/.vim/autoload/plug.vim --create-dirs https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
-#RUN git clone --branch v1.20 https://github.com/fatih/vim-go.git ~/.vim/plugged/vim-go
-#ADD vimrc /root/.vimrc
-#RUN vim -E -u /root/.vimrc +PlugInstall +GoInstallBinaries
-
-#COPY . /vim-go/
-#WORKDIR /vim-go
-
 RUN groupadd --gid 999 vboxsf
-# RUN groupadd --gid 0 staff -- already exists
 RUN useradd --gid 999 -ms /bin/bash -d /vim-go vim-go
 RUN usermod -a -G staff vim-go
 USER vim-go
 
 RUN curl -fLo /vim-go/.vim/autoload/plug.vim --create-dirs https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
-RUN git clone --branch v1.20 https://github.com/fatih/vim-go.git /vim-go/.vim/plugged/vim-go
+#RUN git clone --branch v1.20 https://github.com/fatih/vim-go.git /vim-go/.vim/plugged/vim-go
+RUN git clone https://github.com/fatih/vim-go.git /vim-go/.vim/plugged/vim-go
 ADD --chown=vim-go:vboxsf vimrc /vim-go/.vimrc
 RUN vim -E -u /vim-go/.vimrc +PlugInstall +GoInstallBinaries
 
